@@ -1,0 +1,11 @@
+[
+  {
+    "fix_id": "fix_1_20251128202037",
+    "timestamp": "2025-11-28T20:20:37.257818",
+    "file_path": "demo_buggy_code.py",
+    "original_snippet": "        total = total + price  # Bug: price might be string",
+    "new_snippet": "        total = total + int(price)  # Fixed: convert to int",
+    "backup_path": ".fix-error-backup/demo_buggy_code.py.20251128_202037.bak",
+    "reverted": true
+  }
+]

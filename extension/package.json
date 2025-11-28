@@ -1,0 +1,129 @@
+{
+  "name": "rootcauseai",
+  "displayName": "rootCauseAI",
+  "description": "AI-powered error fixing with LangGraph - automatically detect, analyze, and fix code errors",
+  "version": "0.1.0",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers",
+    "Machine Learning",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "error-fixing",
+    "debugging",
+    "langgraph",
+    "gemini",
+    "code-assistant"
+  ],
+  "activationEvents": [
+    "onCommand:rootcauseai.fixError",
+    "onCommand:rootcauseai.explainError",
+    "onCommand:rootcauseai.undoFix",
+    "onCommand:rootcauseai.showHistory",
+    "onCommand:rootcauseai.showStats",
+    "onLanguage:python",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "rootcauseai.fixError",
+        "title": "rootCauseAI: Fix Error in Terminal",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "rootcauseai.explainError",
+        "title": "rootCauseAI: Explain This Error",
+        "icon": "$(question)"
+      },
+      {
+        "command": "rootcauseai.undoFix",
+        "title": "rootCauseAI: Undo Last Fix",
+        "icon": "$(discard)"
+      },
+      {
+        "command": "rootcauseai.showHistory",
+        "title": "rootCauseAI: Show Fix History",
+        "icon": "$(history)"
+      },
+      {
+        "command": "rootcauseai.showStats",
+        "title": "rootCauseAI: Show Statistics",
+        "icon": "$(graph)"
+      }
+    ],
+    "configuration": {
+      "title": "rootCauseAI",
+      "properties": {
+        "rootcauseai.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the rootCauseAI backend server"
+        },
+        "rootcauseai.provider": {
+          "type": "string",
+          "enum": ["gemini", "groq"],
+          "default": "gemini",
+          "description": "LLM provider to use"
+        },
+        "rootcauseai.maxRetries": {
+          "type": "number",
+          "default": 2,
+          "description": "Maximum retry attempts for fix generation"
+        },
+        "rootcauseai.autoStartBackend": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically start backend server"
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "rootcauseai.fixError",
+          "when": "editorHasSelection || terminalIsOpen"
+        },
+        {
+          "command": "rootcauseai.explainError",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "rootcauseai.undoFix"
+        },
+        {
+          "command": "rootcauseai.showHistory"
+        },
+        {
+          "command": "rootcauseai.showStats"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "package": "vsce package",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.3.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
