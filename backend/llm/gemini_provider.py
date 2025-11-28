@@ -111,9 +111,9 @@ class GeminiProvider(BaseLLMProvider):
         """
         try:
             # Add JSON instruction to prompt
-            json_instruction = "\n\nYou must respond with valid JSON only. No markdown, no explanations."
+            json_instruction = "\n\nYou must respond with valid JSON only. No markdown, no explanations, no code blocks."
             if schema:
-                json_instruction += f"\n\nFollow this schema:\n{json.dumps(schema, indent=2)}"
+                json_instruction += f"\n\nFollow this schema exactly:\n{json.dumps(schema, indent=2)}"
             
             full_prompt = f"{system_prompt}\n\n{user_prompt}{json_instruction}"
             
@@ -130,20 +130,55 @@ class GeminiProvider(BaseLLMProvider):
                 generation_config=generation_config
             )
             
-            # Parse JSON
+            # Parse JSON with multiple fallbacks
+            response_text = response.text.strip()
+            
+            # Try 1: Direct JSON parse
             try:
-                return json.loads(response.text)
-            except json.JSONDecodeError as e:
-                # Try to extract JSON from markdown code blocks
-                text = response.text.strip()
-                if text.startswith("```"):
-                    text = text[7:]
-                if text.startswith("```"):
-                    text = text[3:]
-                if text.endswith("```"):
-                    text = text[:-3]
+                return json.loads(response_text)
+            except json.JSONDecodeError:
+                pass
+            
+            # Try 2: Remove markdown code blocks
+            if response_text.startswith("```"):
+                # Remove ```json or ```
+                response_text = response_text.split('\n', 1) if '\n' in response_text else response_text[3:][1]
+                if response_text.endswith("```"):
+                    response_text = response_text.rsplit('\n', 1)[0] if '\n' in response_text else response_text[:-3]
+                response_text = response_text.strip()
                 
-                return json.loads(text.strip())
+                try:
+                    return json.loads(response_text)
+                except json.JSONDecodeError:
+                    pass
+            
+            # Try 3: Find JSON object in text
+            import re
+            json_pattern = r'\{(?:[^{}]|(?:\{(?:[^{}]|(?:\{[^{}]*\}))*\}))*\}'
+            matches = re.findall(json_pattern, response_text, re.DOTALL)
+            
+            if matches:
+                # Try the largest match
+                largest_match = max(matches, key=len)
+                try:
+                    return json.loads(largest_match)
+                except json.JSONDecodeError:
+                    pass
+            
+            # Try 4: Fix common JSON issues
+            # Replace single quotes with double quotes
+            response_text = response_text.replace("'", '"')
+            # Remove trailing commas
+            response_text = re.sub(r',\s*}', '}', response_text)
+            response_text = re.sub(r',\s*]', ']', response_text)
+            
+            try:
+                return json.loads(response_text)
+            except json.JSONDecodeError as e:
+                # Last resort: return error structure
+                print(f"⚠️  JSON parsing failed after all attempts. Error: {e}")
+                print(f"Response was: {response_text[:200]}...")
+                return {"fixes": [], "error": "Failed to parse JSON response"}
                 
         except Exception as e:
             raise Exception(f"Gemini JSON generation failed: {str(e)}")
