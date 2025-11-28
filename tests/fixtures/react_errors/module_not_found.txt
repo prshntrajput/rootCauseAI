@@ -1,0 +1,4 @@
+ERROR in ./src/pages/Dashboard.jsx
+Module not found: Error: Can't resolve './components/Chart' in '/home/user/project/src/pages'
+ @ ./src/pages/Dashboard.jsx 3:0-41 15:10-15
+ @ ./src/App.jsx

@@ -1,0 +1,4 @@
+TypeError: Cannot read property 'length' of undefined
+    at getArrayLength (/home/user/project/utils.js:10:25)
+    at main (/home/user/project/index.js:15:18)
+    at Object.<anonymous> (/home/user/project/index.js:50:1)

@@ -1,0 +1,4 @@
+ReferenceError: calculateTotal is not defined
+    at processOrder (/home/user/project/src/order.js:42:15)
+    at /home/user/project/src/api.js:78:9
+    at Layer.handle [as handle_request] (/home/user/project/node_modules/express/lib/router/layer.js:95:5)

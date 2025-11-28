@@ -1,0 +1,4 @@
+  File "/home/user/project/views.py", line 12
+    if user is None
+                   ^
+SyntaxError: invalid syntax

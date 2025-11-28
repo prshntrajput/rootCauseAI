@@ -1,0 +1,4 @@
+  File "/home/user/project/config.py", line 18
+    return settings
+    ^
+IndentationError: unexpected indent

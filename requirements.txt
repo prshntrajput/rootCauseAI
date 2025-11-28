@@ -1,0 +1,19 @@
+# LLM SDKs
+google-generativeai==0.8.3
+groq==0.9.0
+
+# Core Dependencies
+pydantic==2.9.2
+pydantic-settings==2.6.1
+python-dotenv==1.0.1
+PyYAML==6.0.2
+chardet==5.2.0
+
+# CLI & Display (for future days)
+typer==0.12.5
+rich==13.9.4
+
+
+# Testing
+pytest==8.3.3
+pytest-asyncio==0.24.0

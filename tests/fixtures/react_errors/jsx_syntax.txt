@@ -1,0 +1,11 @@
+ERROR in ./src/components/Header.jsx
+Module parse failed: Unexpected token (15:6)
+You may need an appropriate loader to handle this file type.
+|   return (
+|     <div className="header">
+>       <h1>Welcome</h1
+|     </div>
+|   );
+
+ @ ./src/App.jsx 5:0-42
+ @ ./src/index.js

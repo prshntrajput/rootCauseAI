@@ -1,0 +1,21 @@
+# AI Error Fixer Configuration File
+# Copy this to .fix-error-config.yaml and add your API keys
+
+# API Keys
+gemini_api_key: ""
+groq_api_key: ""
+
+# Default LLM Provider (gemini or groq)
+default_provider: "gemini"
+
+# Model Configuration
+gemini_model: "gemini-2.0-flash"
+groq_model: "llama-3.3-70b-versatile"
+
+# Agent Settings
+max_retries: 3
+confidence_threshold: 0.7
+max_context_tokens: 8000
+
+# Temperature settings (0.0 = deterministic, 1.0 = creative)
+temperature: 0.3

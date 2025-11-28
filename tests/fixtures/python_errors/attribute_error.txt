@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/user/project/api.py", line 15, in get_user
+    return user.get('name')
+  File "/home/user/project/models.py", line 28, in get
+    value = self.data.get(key)
+AttributeError: 'NoneType' object has no attribute 'get'

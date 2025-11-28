@@ -1,0 +1,5 @@
+/home/user/project/src/helper.js:23
+    const result = {
+                   ^
+SyntaxError: Unexpected token '{'
+    at Module._compile (node:internal/modules/cjs/loader:1105:18)
